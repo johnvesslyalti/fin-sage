@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Project Title:
 
-## Getting Started
+    Fin Sage
+    Meaning: “Fin” for finance + “Sage” for wisdom – wise personal financial tracking.
 
-First, run the development server:
+Description:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+    Fin Sage is a where you can track all your finances easily
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Tech Stack:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    Frontend:
+        
+        Next.js (App Router + Server Actions)
+        TypeScript
+        TailwindCSS + ShadcnUI
+        Zustand
+        Recharts
+        NextAuth.js
+        Next-PWA
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    Backend:
 
-## Learn More
+        Next.js API Routes
+        prisma ORM
+        Postgre SQL
+        Zod
 
-To learn more about Next.js, take a look at the following resources:
+Installation:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    npm install next-pwa
+    npm install --save-dev @types/service-worker-mock
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Features:
 
-## Deploy on Vercel
+    1. Authentication:
+        - Social Logins (Google)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    2. Expenses Dashboard
+        - Daily, Weekly, Monthly spend summary
+        - Pie Charts, bar graphs (category-base, time-series)
+        - Top Spending categories
+        - Filters by data range, category, tags
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    3. Add/Edit/Delete Expenses
+        Add expense with:
+            Title
+            Amount
+            Category (Food, Rent, Travel, etc.)
+            Date
+            Notes
+            Recurring toggle
+            Inline editing
+            Confirmation before deletion
+
+    4. Recurring Transactions
+        Monthly rent, subscriptions (Netflix, Gym)
+        Toggle repeat + define interval
+
+    5. Categories & Tags
+        Default categories (customizable)
+        User-defined tags (e.g., “Work Trip”)
+
+    6. Smart Search & Filters
+        Search by title, tags, amount range
+        Filter by:
+            Date (range picker)
+            Amount (slider)
+            Category
+
+    7. Budget Tracking
+        Set monthly budget
+        Progress bar with % used
+        Alerts when reaching thresholds
+
+    8. Data Import/Export
+        Import from CSV
+        Export as CSV, PDF
+
+    9. Notifications
+        Budget exceed alerts
+        Reminders to add daily expenses (PWA + browser notifications)
+
+    10. Mobile Optimized UI
+        Responsive UI
+
+    11. Installable PWA (offline tracking)
+
+Folder Structure:
+
+    /app
+    /dashboard
+    /auth
+    /expenses
+    /components
+    ExpenseForm.tsx
+    ChartView.tsx
+    CategorySelector.tsx
+    /lib
+    auth.ts
+    db.ts
+    /prisma
+    schema.prisma
+    /public
+    /styles
+    /utils
