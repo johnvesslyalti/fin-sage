@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 export default function HeroSection() {
   return (
-    <section className="w-full min-h-screen bg-[#0f172a] text-white flex items-center justify-center px-6 sm:px-12 md:px-24 lg:px-32">
+    <section className="w-full min-h-screen text-white flex items-center justify-center px-6 sm:px-12 md:px-24 lg:px-32">
       <div className="max-w-5xl mx-auto text-center space-y-6">
         <motion.h1
           initial={{ opacity: 0, y: -40 }}
