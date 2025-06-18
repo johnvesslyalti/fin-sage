@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/components/ThemeProvider'
 import './globals.css'
 import { Metadata } from 'next'
 
@@ -14,7 +15,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#2563eb" />
       </head>
-      <body>{children}</body>
+      <body>
+        <ThemeProvider
+        attribute="class"
+        defaultTheme='system'
+        enableSystem
+        disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

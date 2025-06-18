@@ -30,6 +30,8 @@ Installation:
 
     npm install next-pwa
     npm install --save-dev @types/service-worker-mock
+    npx shadcn@latest init
+    npm install next-themes
 
 Features:
 
