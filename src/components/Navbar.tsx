@@ -21,7 +21,7 @@ export default function Navbar() {
           <Link href="/features" className="hover:text-primary">Features</Link>
           <Link href="/pricing" className="hover:text-primary">Pricing</Link>
           <Link href="/dashboard" className="hover:text-primary">Dashboard</Link>
-          <Button size="sm">Login</Button>
+          <Link href="/api/auth/signin"><Button size="sm" className="cursor-pointer">Login</Button></Link>
         </div>
 
         <button className="md:hidden" onClick={() => setOpen(!open)}>
