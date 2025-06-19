@@ -17,6 +17,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "./ui/dropdown-menu";
+import ModeToggle from "./ModeToggle";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -39,8 +40,8 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={clsx(
-                  "cursor-pointer transition-all hover:border-b-2 hover:border-white",
-                  pathname === item.href ? "border-b-2 border-white font-semibold" : ""
+                  "cursor-pointer transition-all hover:font-bold",
+                  pathname === item.href ? "border-b-2 dark:border-white border-black font-bold" : ""
                 )}
               >
                 {item.label}
@@ -52,29 +53,32 @@ export default function Navbar() {
 
       <div className="flex items-center gap-4">
         {session ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Avatar className="cursor-pointer">
-                <AvatarImage
-                  src={session.user?.image || ""}
-                  alt={session.user?.name || "User"}
-                />
-                <AvatarFallback>
-                  {session.user?.name?.[0] ?? "U"}
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
+            <>
+                <ModeToggle />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                    <Avatar className="cursor-pointer">
+                        <AvatarImage
+                        src={session.user?.image || ""}
+                        alt={session.user?.name || "User"}
+                        />
+                        <AvatarFallback>
+                        {session.user?.name?.[0] ?? "U"}
+                        </AvatarFallback>
+                    </Avatar>
+                    </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end" className="w-40">
-              <DropdownMenuItem asChild>
-                <Link href="/profile">Profile</Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
-                Sign Out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                    <DropdownMenuContent align="end" className="w-40">
+                    <DropdownMenuItem asChild>
+                        <Link href="/profile">Profile</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })} className="text-red-100">
+                        Sign Out
+                    </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </>
         ) : (
           <Button onClick={() => signIn("google", { callbackUrl: "/dashboard" })}>
             Sign In
