@@ -1,7 +1,8 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import GoogleProvider from 'next-auth/providers/google'
+import GoogleProvider from "next-auth/providers/google";
+import type { Session, User } from "next-auth";
+import { db } from "@/lib/db";
 import { NextAuthOptions } from "next-auth";
-import { db } from "./db";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -12,16 +13,9 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      if (url.startsWith('/')) return url
-      if (url.startsWith(baseUrl)) return url
-      return baseUrl + '/dashboard'
-    }
+    async session({ session, user }: { session: Session; user: User }) {
+      session.user.id = user.id;
+      return session;
+    },
   },
-  session: {
-    strategy: 'database',
-  },
-  pages: {
-    signIn: '/auth/signin',
-  }
-}
+};
