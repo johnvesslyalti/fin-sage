@@ -39,7 +39,8 @@ Installation:
     npm install next-auth @auth/prisma-adapter
     npm install motion 
     npx shadcn@latest add dropdown-menu
-    npx shadcn-ui@latest add button dropdown-menu 
+    npx shadcn-ui@latest add button dropdown-menu
+    npx shadcn@latest add avatar 
 
 Features:
 

@@ -1,89 +1,86 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Menu, X } from 'lucide-react'
-import { useState } from 'react'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useSession, signIn, signOut } from "next-auth/react";
+import { Button } from "./ui/button";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "./ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "./ui/dropdown-menu";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
-  const { data: session } = useSession()
+  const { data: session } = useSession();
+  const pathname = usePathname();
+
+  const navItems = [
+    { label: "Dashboard", href: "/dashboard" },
+    { label: "Expenses", href: "/expenses" },
+  ];
 
   return (
-    <nav className="w-full bg-background text-foreground px-6 sm:px-12 py-4 shadow-lg border-b border-border z-50">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link href="/" className="text-2xl font-semibold tracking-tight">
-          <span className="text-primary">Fin</span> Sage
-        </Link>
+    <nav className="flex justify-between items-center p-5">
+      <div className="flex flex-1 items-center gap-10">
+        <div className="text-xl font-bold">FinSage</div>
 
-        <div className="hidden md:flex items-center space-x-6">
-          {session && (
-            <Link href="/dashboard" className="text-sm hover:underline">
-              Dashboard
-            </Link>
-          )}
-
-          {session ? (
-            <Button
-              onClick={() => signOut({ callbackUrl: `${window.location.origin}/` })}
-              variant="outline"
-              size="sm"
-            >
-              Sign Out
-            </Button>
-          ) : (
-            <Button
-              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-              size="sm"
-            >
-              Sign In
-            </Button>
-          )}
-        </div>
-
-        <button className="md:hidden" onClick={() => setOpen(!open)}>
-          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        {session && (
+          <div className="flex gap-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={clsx(
+                  "cursor-pointer transition-all hover:border-b-2 hover:border-white",
+                  pathname === item.href ? "border-b-2 border-white font-semibold" : ""
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="md:hidden mt-4 px-2 space-y-3"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-          >
-            {session && (
-              <Link href="/dashboard" onClick={() => setOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start">
-                  Dashboard
-                </Button>
-              </Link>
-            )}
+      <div className="flex items-center gap-4">
+        {session ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar className="cursor-pointer">
+                <AvatarImage
+                  src={session.user?.image || ""}
+                  alt={session.user?.name || "User"}
+                />
+                <AvatarFallback>
+                  {session.user?.name?.[0] ?? "U"}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
 
-            {session ? (
-              <Button
-                onClick={() => signOut({ callbackUrl: `${window.location.origin}/` })}
-                variant="outline"
-                className="w-full"
-              >
+            <DropdownMenuContent align="end" className="w-40">
+              <DropdownMenuItem asChild>
+                <Link href="/profile">Profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
                 Sign Out
-              </Button>
-            ) : (
-              <Button
-                onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-                className="w-full"
-              >
-                Sign In
-              </Button>
-            )}
-          </motion.div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button onClick={() => signIn("google", { callbackUrl: "/dashboard" })}>
+            Sign In
+          </Button>
         )}
-      </AnimatePresence>
+      </div>
     </nav>
-  )
+  );
 }

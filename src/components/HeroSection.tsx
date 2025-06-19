@@ -4,8 +4,7 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import FeatureHighlights from '@/components/FeatureHighlights';
-import DashboardPreview from '@/components/DashboardPreview';
+import Link from 'next/link';
 
 export default function HeroSection() {
   return (
@@ -35,10 +34,12 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
           className="flex justify-center gap-4 mt-8 flex-wrap"
         >
-          <Button size="lg" className="text-base px-6 py-4 cursor-pointer">
-            Get Started
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+          <Link href="/login">
+              <Button size="lg" className="text-base px-6 py-4 cursor-pointer">
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+          </Link>
           <Button
             variant="outline"
             size="lg"
