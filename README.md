@@ -32,6 +32,14 @@ Installation:
     npm install --save-dev @types/service-worker-mock
     npx shadcn@latest init
     npm install next-themes
+    npx shadcn@latest add "https://magicui.design/r/marquee"
+    npm install react-icons --save-dev
+    npm install react-icons --save-dev
+    npx shadcn@latest add card
+    npm install next-auth @auth/prisma-adapter
+    npm install motion 
+    npx shadcn@latest add dropdown-menu
+    npx shadcn-ui@latest add button dropdown-menu 
 
 Features:
 
