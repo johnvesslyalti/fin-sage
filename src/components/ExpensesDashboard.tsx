@@ -1,6 +1,7 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
 export default function ExpensesDashboard() {
     return (
@@ -40,6 +41,20 @@ export default function ExpensesDashboard() {
                         <DropdownMenuItem>Others</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-md p-5">
+                <div className="p-5 max-w-[200px] personal-card-created-by-john">
+                    <div className="font-bold py-1">Daily Spending</div>
+                    <div className="text-start py-1">$45,00</div>
+                </div>
+                <div className="p-5 max-w-[200px] personal-card-created-by-john">
+                    <div className="font-bold py-1">Weekly Spending</div>
+                    <div className="text-start py-1">$320,00</div>
+                </div>
+                <div className="p-5 personal-card-created-by-john col-span-1 sm:col-span-2">
+                    <div className="font-bold py-1">Monthly Spending</div>
+                    <div className="text-start py-1">$1,200,00</div>
+                </div>
             </div>
         </div>
     );

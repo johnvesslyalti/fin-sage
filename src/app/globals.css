@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+.personal-card-created-by-john {
+    @apply bg-black/10 border rounded-lg shadow-lg border-white/20;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
