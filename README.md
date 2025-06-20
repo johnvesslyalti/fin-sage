@@ -9,7 +9,7 @@ Description:
 
 Demo:
 
-    ![Home Page Screenshot](/public/finsage-demo.png)
+![Home Page Screenshot](/public/finsage-demo.png)
 
 Tech Stack:
 
