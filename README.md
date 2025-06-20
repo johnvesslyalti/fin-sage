@@ -7,6 +7,10 @@ Description:
 
     Fin Sage is a where you can track all your finances easily
 
+Demo:
+
+    ![Home Page Screenshot](/public/finsage-demo.png)
+
 Tech Stack:
 
     Frontend:

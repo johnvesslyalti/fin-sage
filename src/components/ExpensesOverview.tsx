@@ -4,14 +4,24 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { ScrollArea } from "./ui/scroll-area";
+import React from "react";
+import { Separator } from "./ui/separator";
 
 export default function ExpensesOverview() {
+
+    const tags = Array.from({ length: 50 }).map(
+        (_, i, a) => `v1.2.0-beta.${a.length - i}`
+)
+
     return (
         <div className="bg-white/10 border-black/20 dark:bg-black/10 dark:border-white/20 border p-5">
             <h1 className="text-xl font-bold mb-5">Expenses Overview</h1>
-            <Card className="w-full personal-card-created-by-john max-w-sm">
+            <div className="flex">
+            <div>
+            <Card className="w-full personal-card-created-by-john min-w-sm">
             <CardHeader>
-                <CardTitle className="text-lg font-semibold text-center">Add Expense</CardTitle>
+                <CardTitle className="text-lg font-bold text-center">Add Expense</CardTitle>
             </CardHeader>
             <CardContent>
                 <form>
@@ -64,6 +74,21 @@ export default function ExpensesOverview() {
                 <Button className="w-full cursor-pointer">Submit</Button>
             </CardFooter>
             </Card>
+            </div>
+            <div className="flex flex-1 justify-center items-center">
+                <ScrollArea className="h-90 w-150 rounded-md border personal-card-created-by-john">
+                <div className="p-4">
+                <h4 className="mb-4 text-lg leading-none font-bold">Expenses</h4>
+                {tags.map((tag) => (
+                <React.Fragment key={tag}>
+                <div className="text-sm">{tag}</div>
+                <Separator className="my-2" />
+                </React.Fragment>
+                ))}
+                </div>
+                </ScrollArea>
+            </div>
+            </div>
         </div>
     )
 }
