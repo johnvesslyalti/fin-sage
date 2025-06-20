@@ -7,6 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Category {
+  food
+  travel
+  utilities
+  others
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -56,7 +63,7 @@ model Expense {
   id        String   @id @default(cuid())
   title     String
   amount    Float
-  category  String
+  category  Category // Use enum here
   date      DateTime
   notes     String?
   recurring Boolean  @default(false)
@@ -65,5 +72,5 @@ model Expense {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tags String? 
+  tags String?
 }

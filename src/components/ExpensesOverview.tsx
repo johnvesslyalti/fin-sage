@@ -1,5 +1,7 @@
+import { ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
@@ -33,19 +35,33 @@ export default function ExpensesOverview() {
                         />
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            placeholder="m@example.com"
-                            required
-                        />
+                    <Label htmlFor="category">Category</Label>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                        <Button
+                            id="category"
+                            variant="outline"
+                            className="flex justify-between items-center text-muted-foreground w-full text-left"
+                        >
+                            Category
+                            <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                        </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="dark:bg-black text-left w-full block">
+                        <DropdownMenuLabel>Category</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>Food</DropdownMenuItem>
+                        <DropdownMenuItem>Travel</DropdownMenuItem>
+                        <DropdownMenuItem>Utilities</DropdownMenuItem>
+                        <DropdownMenuItem>Others</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                     </div>
                 </div>
                 </form>
             </CardContent>
             <CardFooter>
-                <Button className="w-full">Submit</Button>
+                <Button className="w-full cursor-pointer">Submit</Button>
             </CardFooter>
             </Card>
         </div>
