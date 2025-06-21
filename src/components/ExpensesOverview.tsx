@@ -77,13 +77,14 @@ export default function ExpensesOverview() {
             </div>
             <div className="flex flex-1 justify-center items-center">
                 <ScrollArea className="h-90 w-150 rounded-md border personal-card-created-by-john">
-                <div className="p-4">
+                <div className="flex flex-col gap-5 p-4">
                 <h4 className="mb-4 text-lg leading-none font-bold">Expenses</h4>
                 {tags.map((tag) => (
-                <React.Fragment key={tag}>
-                <div className="text-sm">{tag}</div>
-                <Separator className="my-2" />
-                </React.Fragment>
+                    <Card key={tag} className="personal-card-created-by-john">
+                        <CardContent>
+                            {tag}
+                        </CardContent>
+                    </Card>
                 ))}
                 </div>
                 </ScrollArea>
