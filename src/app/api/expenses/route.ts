@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 
 export async function GET() {
     const session = await getServerSession(authOptions);
-    if(!session) return new NextResponse("Unauthorized", { status: 401 });
+    if (!session) return new NextResponse("Unauthorized", { status: 401 });
 
     const expenses = await db.expense.findMany({
         where: { userId: session.user.id },
