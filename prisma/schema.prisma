@@ -8,10 +8,10 @@ datasource db {
 }
 
 enum Category {
-  Food
-  Travel
-  Utilities
-  Others
+  FOOD
+  TRAVEL
+  UTILITIES
+  OTHERS
 }
 
 model User {
@@ -63,7 +63,7 @@ model Expense {
   id        String   @id @default(cuid())
   title     String
   amount    Float
-  category  Category // Use enum here
+  category  Category 
   date      DateTime
   notes     String?
   recurring Boolean  @default(false)
