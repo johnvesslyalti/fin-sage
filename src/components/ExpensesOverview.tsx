@@ -9,11 +9,13 @@ import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
 import React, { useState } from "react";
 import axios from "axios";
+import { TiTick } from "react-icons/ti";
 
 export default function ExpensesOverview() {
     const [title, setTitle] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
-    const [category, setCategory] = useState("others");
+    const [category, setCategory] = useState<string>("others");
+    const [message, setMessage] = useState<string>("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,7 +28,11 @@ export default function ExpensesOverview() {
             console.log("Expense saved", response.data);
             setTitle("");
             setAmount("");
-            setCategory("");
+            setCategory("Others");
+            setMessage("Expense Added Successfully");
+            setTimeout(() => {
+                setMessage("");
+            }, 3000);
         } catch (error) {
             console.error(error);
         }
@@ -37,6 +43,13 @@ export default function ExpensesOverview() {
 
     return (
         <div className="bg-white/10 border-black/20 dark:bg-black/10 dark:border-white/20 border p-5">
+        {message && (
+        <div className="absolute top-5 left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-2 bg-black text-sm text-white p-2 rounded">
+            <TiTick className="text-sm bg-green-500 rounded-full" />
+            {message}
+        </div>
+        )}
+
             <h1 className="text-xl font-bold mb-5">Expenses Overview</h1>
             <div className="flex">
             <div>
@@ -85,13 +98,13 @@ export default function ExpensesOverview() {
                         <DropdownMenuContent className="dark:bg-black text-left w-full block">
                         <DropdownMenuLabel>Category</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        {["food", "travel", "utilities", "others"].map((cat) => (
+                        {["Food", "Travel", "Utilities", "Others"].map((cat) => (
                              <DropdownMenuItem 
                              key={cat}
                              onClick={() => setCategory(cat)}
                              className={category === cat ? "bg-muted": ""}
                              >
-                                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                                {cat}
                              </DropdownMenuItem>
                         ))}
                         </DropdownMenuContent>

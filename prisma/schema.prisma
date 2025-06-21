@@ -8,10 +8,10 @@ datasource db {
 }
 
 enum Category {
-  food
-  travel
-  utilities
-  others
+  Food
+  Travel
+  Utilities
+  Others
 }
 
 model User {
