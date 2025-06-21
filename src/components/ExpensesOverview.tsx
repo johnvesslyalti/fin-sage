@@ -20,7 +20,7 @@ import {
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { TiTick } from "react-icons/ti";
 
@@ -57,14 +57,27 @@ export default function ExpensesOverview() {
             setMessage("Expense Added Successfully");
 
             setTimeout(() => setMessage(""), 3000);
+
+            fetchExpenses();
         } catch (error) {
             console.error(error);
         }
     };
 
     const fetchExpenses = async () => {
-
+        try {
+            const response = await axios.get("/api/expenses");
+            setExpenses(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     }
+
+    useEffect(() => {
+
+        fetchExpenses();
+        
+    }, [])
 
     const categories = ["FOOD", "TRAVEL", "UTILITIES", "OTHERS"];
 
@@ -154,9 +167,18 @@ export default function ExpensesOverview() {
                     <ScrollArea className="h-90 w-150 rounded-md border personal-card-created-by-john">
                         <div className="flex flex-col gap-5 p-4">
                             <h4 className="mb-4 text-lg leading-none font-bold">Expenses</h4>
-                            {Array.from({ length: 5 }).map((_, i) => (
-                                <Card key={i} className="personal-card-created-by-john">
-                                    <CardContent>v1.2.0-beta.{i + 1}</CardContent>
+                            {expenses.map((expense: IExpenses) => (
+                                <Card key={expense.id} className="personal-card-created-by-john">
+                                    <CardContent>
+                                        <div className="flex flex-col gap-1">
+                                            <span className="font-semibold">{expense.title}</span>
+                                            <span>₹{expense.amount}</span>
+                                            <span className="text-sm text-muted-foreground">{expense.category}</span>
+                                            <span className="text-xs text-gray-500">
+                                                {new Date(expense.date).toLocaleDateString()}
+                                            </span>
+                                        </div>
+                                    </CardContent>
                                 </Card>
                             ))}
                         </div>
