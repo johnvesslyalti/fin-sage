@@ -36,7 +36,7 @@ export default function ExpensesOverview() {
       const response = await axios.post("/api/expenses", {
         title,
         amount: parseFloat(amount),
-        category, // already in uppercase
+        category,
       }, {
         withCredentials: true
       });
