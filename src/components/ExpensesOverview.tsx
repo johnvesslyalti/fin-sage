@@ -1,3 +1,5 @@
+'use client';
+
 import { ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
@@ -5,11 +7,30 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
-import React from "react";
-import { Separator } from "./ui/separator";
+import React, { useState } from "react";
+import axios from "axios";
 
 export default function ExpensesOverview() {
+    const [title, setTitle] = useState<string>("");
+    const [amount, setAmount] = useState<string>("");
+    const [category, setCategory] = useState("others");
 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post("/api/expenses", {
+                title,
+                amount: parseFloat(amount),
+                category,
+            });
+            console.log("Expense saved", response.data);
+            setTitle("");
+            setAmount("");
+            setCategory("");
+        } catch (error) {
+            console.error(error);
+        }
+    }
     const tags = Array.from({ length: 50 }).map(
         (_, i, a) => `v1.2.0-beta.${a.length - i}`
 )
@@ -31,6 +52,8 @@ export default function ExpensesOverview() {
                         <Input
                             id="title"
                             type="text"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
                             placeholder="Expense Title"
                             required
                         />
@@ -40,6 +63,8 @@ export default function ExpensesOverview() {
                         <Input
                             id="amount"
                             type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
                             placeholder="Expense Amount"
                             required
                         />
@@ -53,17 +78,22 @@ export default function ExpensesOverview() {
                             variant="outline"
                             className="flex justify-between items-center text-muted-foreground w-full text-left"
                         >
-                            Category
-                            <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                            {category.charAt(0).toUpperCase() + category.slice(1)}
+                            <ChevronDown className="w-4 h-4 text-muted-foreground ml-auto" />
                         </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="dark:bg-black text-left w-full block">
                         <DropdownMenuLabel>Category</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Food</DropdownMenuItem>
-                        <DropdownMenuItem>Travel</DropdownMenuItem>
-                        <DropdownMenuItem>Utilities</DropdownMenuItem>
-                        <DropdownMenuItem>Others</DropdownMenuItem>
+                        {["food", "travel", "utilities", "others"].map((cat) => (
+                             <DropdownMenuItem 
+                             key={cat}
+                             onClick={() => setCategory(cat)}
+                             className={category === cat ? "bg-muted": ""}
+                             >
+                                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                             </DropdownMenuItem>
+                        ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
                     </div>
@@ -71,7 +101,9 @@ export default function ExpensesOverview() {
                 </form>
             </CardContent>
             <CardFooter>
-                <Button className="w-full cursor-pointer">Submit</Button>
+                <Button
+                onClick={handleSubmit}
+                className="w-full cursor-pointer">Submit</Button>
             </CardFooter>
             </Card>
             </div>
