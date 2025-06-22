@@ -37,26 +37,40 @@ export default function ExpensesOverview() {
     const [amount, setAmount] = useState<string>("");
     const [category, setCategory] = useState<string>("OTHERS");
     const [message, setMessage] = useState<string>("");
+    const [isEditing, setIsEditing] = useState(false);
+    const [editId, setEditId] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post("/api/expenses", {
-                title,
-                amount: parseFloat(amount),
-                category,
-            }, {
-                withCredentials: true
-            });
+            if (isEditing && editId) {
+                await axios.put(`/api/expenses/${editId}`, {
+                    title,
+                    amount: parseFloat(amount),
+                    category,
+                }, {
+                    withCredentials: true,
+                });
 
-            console.log("Expense saved", response.data);
+                setMessage("Expense Updated Successfully");
+            } else {
+                await axios.post("/api/expenses", {
+                    title,
+                    amount: parseFloat(amount),
+                    category,
+                }, {
+                    withCredentials: true
+                });
+                setMessage("Expense Added Successfully");
+            }
+
             setTitle("");
             setAmount("");
             setCategory("OTHERS");
-            setMessage("Expense Added Successfully");
+            setIsEditing(false);
+            setEditId(null);
 
             setTimeout(() => setMessage(""), 3000);
-
             fetchExpenses();
         } catch (error) {
             console.error(error);
@@ -72,8 +86,12 @@ export default function ExpensesOverview() {
         }
     }
 
-    const handleEdit = async () => {
-
+    const handleEdit = (expense: IExpenses) => {
+        setIsEditing(true);
+        setEditId(expense.id);
+        setTitle(expense.title);
+        setAmount(expense.amount.toString());
+        setCategory(expense.category);
     }
 
     const handleDelete = async (id: any) => {
@@ -198,7 +216,7 @@ export default function ExpensesOverview() {
                                             {/* Action Buttons */}
                                             <div className="flex justify-end gap-2 pt-2">
                                                 <button
-                                                    onClick={() => handleEdit(expense.id)}
+                                                    onClick={() => handleEdit(expense)}
                                                     className="px-3 py-1 text-sm transition cursor-pointer"
                                                 >
                                                     Edit
