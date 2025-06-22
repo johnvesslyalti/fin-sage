@@ -5,7 +5,6 @@ import { Button } from "./ui/button";
 import {
     Card,
     CardContent,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "./ui/card";
@@ -73,10 +72,23 @@ export default function ExpensesOverview() {
         }
     }
 
+    const handleEdit = async () => {
+
+    }
+
+    const handleDelete = async (id: any) => {
+        try {
+            const response = await axios.delete(`api/expenses/${id}`);
+            fetchExpenses();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
 
         fetchExpenses();
-        
+
     }, [])
 
     const categories = ["FOOD", "TRAVEL", "UTILITIES", "OTHERS"];
@@ -152,11 +164,9 @@ export default function ExpensesOverview() {
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
-                                    <CardFooter>
-                                        <Button type="submit" className="w-full cursor-pointer">
-                                            Submit
-                                        </Button>
-                                    </CardFooter>
+                                    <Button type="submit" className="w-full cursor-pointer">
+                                        Submit
+                                    </Button>
                                 </div>
                             </form>
                         </CardContent>
@@ -168,15 +178,38 @@ export default function ExpensesOverview() {
                         <div className="flex flex-col gap-5 p-4">
                             <h4 className="mb-4 text-lg leading-none font-bold">Expenses</h4>
                             {expenses.map((expense: IExpenses) => (
-                                <Card key={expense.id} className="personal-card-created-by-john">
-                                    <CardContent>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="font-semibold">{expense.title}</span>
-                                            <span>₹{expense.amount}</span>
-                                            <span className="text-sm text-muted-foreground">{expense.category}</span>
-                                            <span className="text-xs text-gray-500">
-                                                {new Date(expense.date).toLocaleDateString()}
-                                            </span>
+                                <Card key={expense.id} className="personal-card-created-by-john p-4">
+                                    <CardContent className="p-0">
+                                        <div className="flex flex-col gap-3">
+                                            {/* Title and Amount */}
+                                            <div className="flex justify-between items-center">
+                                                <span className="font-semibold text-base">{expense.title}</span>
+                                                <span className="text-lg font-bold">₹{expense.amount}</span>
+                                            </div>
+
+                                            {/* Category and Date */}
+                                            <div className="flex justify-between items-center text-sm text-muted-foreground">
+                                                <span>{expense.category}</span>
+                                                <span className="text-xs text-gray-500">
+                                                    {new Date(expense.date).toLocaleDateString()}
+                                                </span>
+                                            </div>
+
+                                            {/* Action Buttons */}
+                                            <div className="flex justify-end gap-2 pt-2">
+                                                <button
+                                                    onClick={() => handleEdit(expense.id)}
+                                                    className="px-3 py-1 text-sm transition cursor-pointer"
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(expense.id)}
+                                                    className="px-3 py-1 text-sm transition cursor-pointer"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </div>
                                     </CardContent>
                                 </Card>
