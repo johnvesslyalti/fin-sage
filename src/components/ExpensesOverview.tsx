@@ -24,7 +24,7 @@ import axios from "axios";
 import { TiTick } from "react-icons/ti";
 
 export default function ExpensesOverview() {
-    const [expenses, setExpenses] = useState<IExpenses[]>([])
+    const [expenses, setExpenses] = useState<IExpenses[]>([]);
     const [title, setTitle] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
     const [category, setCategory] = useState<string>("OTHERS");
@@ -40,19 +40,14 @@ export default function ExpensesOverview() {
                     title,
                     amount: parseFloat(amount),
                     category,
-                }, {
-                    withCredentials: true,
-                });
-
+                }, { withCredentials: true });
                 setMessage("Expense Updated Successfully");
             } else {
                 await axios.post("/api/expenses", {
                     title,
                     amount: parseFloat(amount),
                     category,
-                }, {
-                    withCredentials: true
-                });
+                }, { withCredentials: true });
                 setMessage("Expense Added Successfully");
             }
 
@@ -61,7 +56,6 @@ export default function ExpensesOverview() {
             setCategory("OTHERS");
             setIsEditing(false);
             setEditId(null);
-
             setTimeout(() => setMessage(""), 3000);
             fetchExpenses();
         } catch (error) {
@@ -76,7 +70,7 @@ export default function ExpensesOverview() {
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
     const handleEdit = (expense: IExpenses) => {
         setIsEditing(true);
@@ -84,46 +78,46 @@ export default function ExpensesOverview() {
         setTitle(expense.title);
         setAmount(expense.amount.toString());
         setCategory(expense.category);
-    }
+    };
 
-    const handleDelete = async (id: any) => {
+    const handleDelete = async (id: string) => {
         try {
-            const response = await axios.delete(`api/expenses/${id}`);
+            await axios.delete(`/api/expenses/${id}`);
             fetchExpenses();
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
     useEffect(() => {
-
         fetchExpenses();
-
-    }, [])
+    }, []);
 
     const categories = ["FOOD", "TRAVEL", "UTILITIES", "OTHERS"];
 
     return (
-        <div className="bg-white/10 border-black/20 dark:bg-black/10 dark:border-white/20 border p-5">
+        <div className="bg-white/10 border-black/20 dark:bg-black/10 dark:border-white/20 border p-4 sm:p-6 rounded-xl">
             {message && (
-                <div className="absolute top-5 left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-2 bg-black text-sm text-white p-2 rounded">
+                <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-2 bg-black text-sm text-white px-4 py-2 rounded">
                     <TiTick className="text-sm bg-green-500 rounded-full" />
                     {message}
                 </div>
             )}
 
-            <h1 className="text-xl font-bold mb-5">Expenses Overview</h1>
-            <div className="flex">
-                <div>
-                    <Card className="w-full personal-card-created-by-john min-w-sm">
+            <h1 className="text-xl sm:text-2xl font-bold mb-5 text-center sm:text-left">Expenses Overview</h1>
+
+            <div className="flex flex-col lg:flex-row gap-6">
+                {/* Form Section */}
+                <div className="w-full lg:w-1/2">
+                    <Card className="w-full personal-card-created-by-john">
                         <CardHeader>
                             <CardTitle className="text-lg font-bold text-center">
-                                Add Expense
+                                {isEditing ? "Edit Expense" : "Add Expense"}
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={handleSubmit}>
-                                <div className="flex flex-col gap-6">
+                                <div className="flex flex-col gap-5">
                                     <div className="grid gap-2">
                                         <Label>Title</Label>
                                         <Input
@@ -153,10 +147,10 @@ export default function ExpensesOverview() {
                                                 <Button
                                                     id="category"
                                                     variant="outline"
-                                                    className="flex justify-between items-center text-muted-foreground w-full text-left"
+                                                    className="flex justify-between items-center w-full text-left"
                                                 >
                                                     {category.charAt(0) + category.slice(1).toLowerCase()}
-                                                    <ChevronDown className="w-4 h-4 text-muted-foreground ml-auto" />
+                                                    <ChevronDown className="w-4 h-4 ml-auto" />
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent className="dark:bg-black text-left w-full block">
@@ -174,8 +168,8 @@ export default function ExpensesOverview() {
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
-                                    <Button type="submit" className="w-full cursor-pointer">
-                                        Submit
+                                    <Button type="submit" className="w-full">
+                                        {isEditing ? "Update" : "Submit"}
                                     </Button>
                                 </div>
                             </form>
@@ -183,47 +177,47 @@ export default function ExpensesOverview() {
                     </Card>
                 </div>
 
-                <div className="flex flex-1 justify-center items-center">
-                    <ScrollArea className="h-90 w-150 rounded-md border personal-card-created-by-john">
-                        <div className="flex flex-col gap-5 p-4">
-                            <h4 className="mb-4 text-lg leading-none font-bold">Expenses</h4>
-                            {expenses.map((expense: IExpenses) => (
-                                <Card key={expense.id} className="personal-card-created-by-john p-4">
-                                    <CardContent className="p-0">
-                                        <div className="flex flex-col gap-3">
-                                            {/* Title and Amount */}
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-semibold text-base">{expense.title}</span>
-                                                <span className="text-lg font-bold">₹{expense.amount}</span>
+                {/* Expenses List Section */}
+                <div className="w-full lg:w-1/2">
+                    <ScrollArea className="h-[28rem] rounded-md border personal-card-created-by-john">
+                        <div className="flex flex-col gap-4 p-4">
+                            <h4 className="text-lg font-bold">Expenses</h4>
+                            {expenses.length === 0 ? (
+                                <p className="text-sm text-muted-foreground text-center">No expenses added yet.</p>
+                            ) : (
+                                expenses.map((expense: IExpenses) => (
+                                    <Card key={expense.id} className="p-4 personal-card-created-by-john">
+                                        <CardContent className="p-0">
+                                            <div className="flex flex-col gap-3">
+                                                <div className="flex justify-between items-center">
+                                                    <span className="font-semibold">{expense.title}</span>
+                                                    <span className="font-bold text-lg">₹{expense.amount}</span>
+                                                </div>
+                                                <div className="flex justify-between items-center text-sm text-muted-foreground">
+                                                    <span>{expense.category.toLowerCase()}</span>
+                                                    <span className="text-xs text-gray-500">
+                                                        {new Date(expense.date).toLocaleDateString()}
+                                                    </span>
+                                                </div>
+                                                <div className="flex justify-end gap-2 pt-2">
+                                                    <button
+                                                        onClick={() => handleEdit(expense)}
+                                                        className="px-3 py-1 text-sm transition hover:underline"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(expense.id)}
+                                                        className="px-3 py-1 text-sm transition hover:underline"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
                                             </div>
-
-                                            {/* Category and Date */}
-                                            <div className="flex justify-between items-center text-sm text-muted-foreground">
-                                                <span>{expense.category}</span>
-                                                <span className="text-xs text-gray-500">
-                                                    {new Date(expense.date).toLocaleDateString()}
-                                                </span>
-                                            </div>
-
-                                            {/* Action Buttons */}
-                                            <div className="flex justify-end gap-2 pt-2">
-                                                <button
-                                                    onClick={() => handleEdit(expense)}
-                                                    className="px-3 py-1 text-sm transition cursor-pointer"
-                                                >
-                                                    Edit
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDelete(expense.id)}
-                                                    className="px-3 py-1 text-sm transition cursor-pointer"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            ))}
+                                        </CardContent>
+                                    </Card>
+                                ))
+                            )}
                         </div>
                     </ScrollArea>
                 </div>

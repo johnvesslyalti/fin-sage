@@ -13,32 +13,26 @@ import { ChevronDown } from "lucide-react";
 import ClientPieChart from "./ClientPieChart";
 import { useEffect, useState } from "react";
 
-const data = [
-    { name: 'Food', value: 400 },
-    { name: 'Rent', value: 300 },
-    { name: 'Utilities', value: 300 },
-    { name: 'Others', value: 200 },
-];
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
 export default function ExpensesDashboard() {
     const [summary, setSummary] = useState({ daily: 0, monthly: 0, yearly: 0 });
 
     const getSpendingSummary = async () => {
         const res = await fetch("/api/expenses/summary");
         return res.json();
-    }
+    };
 
     useEffect(() => {
         getSpendingSummary().then(setSummary);
-    }, [])
+    }, []);
 
     return (
-        <div className="flex border bg-white/10 border-black/20 dark:border-white/20 dark:bg-black/10 p-5 flex-col md:flex-row">
-            <div className="w-full md:w-1/2">
-                <h1 className="text-xl font-bold mb-4">Expenses Dashboard</h1>
-                <div className="flex gap-5 flex-wrap">
+        <div className="flex flex-col lg:flex-row gap-6 border bg-white/10 border-black/20 dark:border-white/20 dark:bg-black/10 p-5 rounded-xl">
+            {/* Left Section */}
+            <div className="w-full lg:w-1/2">
+                <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center lg:text-left">Expenses Dashboard</h1>
+
+                {/* Filters */}
+                <div className="flex flex-wrap gap-4 mb-6 justify-center sm:justify-start">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="flex items-center gap-2">
@@ -74,25 +68,29 @@ export default function ExpensesDashboard() {
                     </DropdownMenu>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-md p-5">
-                    <div className="p-5 max-w-[200px] personal-card-created-by-john">
-                        <div className="font-bold py-1">Daily Spending</div>
-                        <div className="text-start py-1">₹ {summary.daily}</div>
+                {/* Summary Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="p-4 rounded-md shadow-md bg-white/5 border dark:border-white/10 personal-card-created-by-john">
+                        <div className="font-bold mb-1">Daily Spending</div>
+                        <div className="text-start">₹ {summary.daily}</div>
                     </div>
-                    <div className="p-5 max-w-[200px] personal-card-created-by-john">
-                        <div className="font-bold py-1">Weekly Spending</div>
-                        <div className="text-start py-1">₹ {summary.daily}</div>
+                    <div className="p-4 rounded-md shadow-md bg-white/5 border dark:border-white/10 personal-card-created-by-john">
+                        <div className="font-bold mb-1">Weekly Spending</div>
+                        <div className="text-start">₹ {summary.daily}</div>
                     </div>
-                    <div className="p-5 personal-card-created-by-john col-span-1 sm:col-span-2">
-                        <div className="font-bold py-1">Monthly Spending</div>
-                        <div className="text-start py-1">₹ {summary.daily}</div>
+                    <div className="p-4 sm:col-span-2 rounded-md shadow-md bg-white/5 border dark:border-white/10 personal-card-created-by-john">
+                        <div className="font-bold mb-1">Monthly Spending</div>
+                        <div className="text-start">₹ {summary.daily}</div>
                     </div>
                 </div>
             </div>
 
-            <div className="w-full md:w-1/2 flex flex-col items-center justify-center">
-                <h2 className="text-lg font-bold mb-5">Top Spending Categories</h2>
-                <ClientPieChart />
+            {/* Right Section - Chart */}
+            <div className="w-full lg:w-1/2 flex flex-col items-center justify-center mt-10 lg:mt-0">
+                <h2 className="text-lg sm:text-xl font-bold mb-4 text-center">Top Spending Categories</h2>
+                <div className="w-full max-w-[320px] sm:max-w-[400px]">
+                    <ClientPieChart />
+                </div>
             </div>
         </div>
     );
