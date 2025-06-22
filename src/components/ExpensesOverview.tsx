@@ -84,6 +84,11 @@ export default function ExpensesOverview() {
         try {
             await axios.delete(`/api/expenses/${id}`);
             fetchExpenses();
+            setMessage("Expense deleted successfully");
+
+            setTimeout(() => {
+                setMessage("")
+            }, 3000)
         } catch (error) {
             console.error(error);
         }
