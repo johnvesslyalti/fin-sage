@@ -11,6 +11,7 @@ import {
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import ClientPieChart from "./ClientPieChart";
+import { useEffect, useState } from "react";
 
 const data = [
     { name: 'Food', value: 400 },
@@ -22,6 +23,17 @@ const data = [
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default function ExpensesDashboard() {
+    const [summary, setSummary] = useState({ daily: 0, monthly: 0, yearly: 0 });
+
+    const getSpendingSummary = async () => {
+        const res = await fetch("/api/expenses/summary");
+        return res.json();
+    }
+
+    useEffect(() => {
+        getSpendingSummary().then(setSummary);
+    }, [])
+
     return (
         <div className="flex border bg-white/10 border-black/20 dark:border-white/20 dark:bg-black/10 p-5 flex-col md:flex-row">
             <div className="w-full md:w-1/2">
@@ -65,15 +77,15 @@ export default function ExpensesDashboard() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-md p-5">
                     <div className="p-5 max-w-[200px] personal-card-created-by-john">
                         <div className="font-bold py-1">Daily Spending</div>
-                        <div className="text-start py-1">$45.00</div>
+                        <div className="text-start py-1">₹ {summary.daily}</div>
                     </div>
                     <div className="p-5 max-w-[200px] personal-card-created-by-john">
                         <div className="font-bold py-1">Weekly Spending</div>
-                        <div className="text-start py-1">$320.00</div>
+                        <div className="text-start py-1">₹ {summary.daily}</div>
                     </div>
                     <div className="p-5 personal-card-created-by-john col-span-1 sm:col-span-2">
                         <div className="font-bold py-1">Monthly Spending</div>
-                        <div className="text-start py-1">$1,200.00</div>
+                        <div className="text-start py-1">₹ {summary.daily}</div>
                     </div>
                 </div>
             </div>

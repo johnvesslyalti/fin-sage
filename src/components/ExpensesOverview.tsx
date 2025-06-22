@@ -23,14 +23,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { TiTick } from "react-icons/ti";
 
-interface IExpenses {
-    id: string;
-    title: string;
-    amount: number;
-    category: string;
-    date: Date;
-}
-
 export default function ExpensesOverview() {
     const [expenses, setExpenses] = useState<IExpenses[]>([])
     const [title, setTitle] = useState<string>("");
