@@ -12,17 +12,29 @@ import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import ClientPieChart from "./ClientPieChart";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function ExpensesDashboard() {
     const [summary, setSummary] = useState({ daily: 0, monthly: 0, yearly: 0 });
+    const [expenses, setExpenses] = useState<IExpenses[]>([]);
 
     const getSpendingSummary = async () => {
         const res = await fetch("/api/expenses/summary");
         return res.json();
     };
 
+     const fetchData = async () => {
+        try {
+            const res = await axios.get("/api/expenses");
+            setExpenses(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         getSpendingSummary().then(setSummary);
+        fetchData();
     }, []);
 
     return (
@@ -89,7 +101,7 @@ export default function ExpensesDashboard() {
             <div className="w-full lg:w-1/2 flex flex-col items-center justify-center mt-10 lg:mt-0">
                 <h2 className="text-lg sm:text-xl font-bold mb-4 text-center">Top Spending Categories</h2>
                 <div className="w-full max-w-[320px] sm:max-w-[400px]">
-                    <ClientPieChart />
+                    <ClientPieChart data={expenses}/>
                 </div>
             </div>
         </div>

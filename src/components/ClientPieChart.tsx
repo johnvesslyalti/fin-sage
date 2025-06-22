@@ -1,32 +1,42 @@
-'use client'
+'use client';
 
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
-const data = [
-    { name: 'Food', value: 400 },
-    { name: 'Rent', value: 300 },
-    { name: 'Utilities', value: 300 },
-    { name: 'Others', value: 200 },
-];
+interface IExpenses {
+    category: string;
+    amount: number;
+}
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+interface ClientPieChartProps {
+    data: IExpenses[]; 
+}
 
-export default function ClientPieChart() {
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AA55FF', '#FF5599'];
+
+export default function ClientPieChart({ data }: ClientPieChartProps) {
+    const groupedData = Object.values(
+        data.reduce((acc, expense) => {
+            const category = expense.category || 'Others';
+            if (!acc[category]) {
+                acc[category] = { name: category, value: 0 };
+            }
+            acc[category].value += expense.amount;
+            return acc;
+        }, {} as Record<string, { name: string; value: number }>)
+    );
+
     return (
         <PieChart width={500} height={300}>
             <Pie
-                data={data}
+                data={groupedData}
                 cx="50%"
                 cy="50%"
-                labelLine={false}
-                label={({ name, percent }) =>
-                    `${name}: ${(percent * 100).toFixed(0)}%`
-                }
                 outerRadius={100}
                 fill="#8884d8"
                 dataKey="value"
+                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
             >
-                {data.map((entry, index) => (
+                {groupedData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
             </Pie>
