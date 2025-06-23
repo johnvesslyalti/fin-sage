@@ -32,19 +32,23 @@ Tech Stack:
 
 Installation:
 
+    # Core dependencies
     npm install next-pwa
-    npm install --save-dev @types/service-worker-mock
-    npx shadcn@latest init
     npm install next-themes
-    npx shadcn@latest add "https://magicui.design/r/marquee"
     npm install react-icons --save-dev
-    npm install react-icons --save-dev
-    npx shadcn@latest add card
     npm install next-auth @auth/prisma-adapter
     npm install motion 
+
+    # Service worker mock (for testing)
+    npm install --save-dev @types/service-worker-mock
+
+    # Shadcn UI setup
+    npx shadcn@latest init
+    npx shadcn@latest add card
     npx shadcn@latest add dropdown-menu
-    npx shadcn-ui@latest add button dropdown-menu
-    npx shadcn@latest add avatar 
+    npx shadcn@latest add avatar
+    npx shadcn@latest add "https://magicui.design/r/marquee"
+
 
 Features:
 
