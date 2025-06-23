@@ -103,7 +103,7 @@ export default function ExpensesOverview() {
     return (
         <div className="bg-white/10 border-black/20 dark:bg-black/10 dark:border-white/20 border p-4 sm:p-6 rounded-xl">
             {message && (
-                <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-2 bg-black text-sm text-white px-4 py-2 rounded">
+                <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-2 bg-white dark:bg-black text-sm border px-4 py-2 rounded">
                     <TiTick className="text-sm bg-green-500 rounded-full" />
                     {message}
                 </div>
@@ -173,7 +173,7 @@ export default function ExpensesOverview() {
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
-                                    <Button type="submit" className="w-full">
+                                    <Button type="submit" className="w-full cursor-pointer">
                                         {isEditing ? "Update" : "Submit"}
                                     </Button>
                                 </div>
@@ -207,13 +207,13 @@ export default function ExpensesOverview() {
                                                 <div className="flex justify-end gap-2 pt-2">
                                                     <button
                                                         onClick={() => handleEdit(expense)}
-                                                        className="px-3 py-1 text-sm transition hover:underline"
+                                                        className="px-3 py-1 text-sm transition hover:underline cursor-pointer"
                                                     >
                                                         Edit
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(expense.id)}
-                                                        className="px-3 py-1 text-sm transition hover:underline"
+                                                        className="px-3 py-1 text-sm transition hover:underline cursor-pointer"
                                                     >
                                                         Delete
                                                     </button>

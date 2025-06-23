@@ -87,12 +87,12 @@ export default function ExpensesDashboard() {
                         <div className="text-start">₹ {summary.daily}</div>
                     </div>
                     <div className="p-4 rounded-md shadow-md bg-white/5 border dark:border-white/10 personal-card-created-by-john">
-                        <div className="font-bold mb-1">Weekly Spending</div>
-                        <div className="text-start">₹ {summary.daily}</div>
+                        <div className="font-bold mb-1">Monthly Spending</div>
+                        <div className="text-start">₹ {summary.monthly}</div>
                     </div>
                     <div className="p-4 sm:col-span-2 rounded-md shadow-md bg-white/5 border dark:border-white/10 personal-card-created-by-john">
-                        <div className="font-bold mb-1">Monthly Spending</div>
-                        <div className="text-start">₹ {summary.daily}</div>
+                        <div className="font-bold mb-1">Yearly Spending</div>
+                        <div className="text-start">₹ {summary.yearly}</div>
                     </div>
                 </div>
             </div>
