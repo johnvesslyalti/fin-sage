@@ -87,8 +87,8 @@ export default function ExpensesOverview() {
             setMessage("Expense deleted successfully");
 
             setTimeout(() => {
-                setMessage("")
-            }, 3000)
+                setMessage("");
+            }, 3000);
         } catch (error) {
             console.error(error);
         }
@@ -97,6 +97,19 @@ export default function ExpensesOverview() {
     useEffect(() => {
         fetchExpenses();
     }, []);
+
+    const groupByDate = (expenses: IExpenses[]) => {
+        return expenses.reduce((groups: { [key: string]: IExpenses[] }, expense) => {
+            const date = new Date(expense.date).toLocaleDateString();
+            if (!groups[date]) {
+                groups[date] = [];
+            }
+            groups[date].push(expense);
+            return groups;
+        }, {});
+    };
+
+    const groupedExpenses = groupByDate(expenses);
 
     const categories = ["FOOD", "TRAVEL", "UTILITIES", "OTHERS"];
 
@@ -190,37 +203,39 @@ export default function ExpensesOverview() {
                             {expenses.length === 0 ? (
                                 <p className="text-sm text-muted-foreground text-center">No expenses added yet.</p>
                             ) : (
-                                expenses.map((expense: IExpenses) => (
-                                    <Card key={expense.id} className="p-4 personal-card-created-by-john">
-                                        <CardContent className="p-0">
-                                            <div className="flex flex-col gap-3">
-                                                <div className="flex justify-between items-center">
-                                                    <span className="font-semibold">{expense.title}</span>
-                                                    <span className="font-bold text-lg">₹{expense.amount}</span>
-                                                </div>
-                                                <div className="flex justify-between items-center text-sm text-muted-foreground">
-                                                    <span>{expense.category.toLowerCase()}</span>
-                                                    <span className="text-xs text-gray-500">
-                                                        {new Date(expense.date).toLocaleDateString()}
-                                                    </span>
-                                                </div>
-                                                <div className="flex justify-end gap-2 pt-2">
-                                                    <button
-                                                        onClick={() => handleEdit(expense)}
-                                                        className="px-3 py-1 text-sm transition hover:underline cursor-pointer"
-                                                    >
-                                                        Edit
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDelete(expense.id)}
-                                                        className="px-3 py-1 text-sm transition hover:underline cursor-pointer"
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
+                                Object.entries(groupedExpenses).map(([date, expensesForDate]) => (
+                                    <div key={date} className="space-y-3">
+                                        <h5 className="font-bold text-base border-b pb-1">{date}</h5>
+                                        {expensesForDate.map((expense) => (
+                                            <Card key={expense.id} className="p-4 personal-card-created-by-john">
+                                                <CardContent className="p-0">
+                                                    <div className="flex flex-col gap-3">
+                                                        <div className="flex justify-between items-center">
+                                                            <span className="font-semibold">{expense.title}</span>
+                                                            <span className="font-bold text-lg">₹{expense.amount}</span>
+                                                        </div>
+                                                        <div className="flex justify-between items-center text-sm text-muted-foreground">
+                                                            <span>{expense.category.toLowerCase()}</span>
+                                                        </div>
+                                                        <div className="flex justify-end gap-2 pt-2">
+                                                            <button
+                                                                onClick={() => handleEdit(expense)}
+                                                                className="px-3 py-1 text-sm transition hover:underline cursor-pointer"
+                                                            >
+                                                                Edit
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDelete(expense.id)}
+                                                                className="px-3 py-1 text-sm transition hover:underline cursor-pointer"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        ))}
+                                    </div>
                                 ))
                             )}
                         </div>

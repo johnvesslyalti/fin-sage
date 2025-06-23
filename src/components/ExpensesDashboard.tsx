@@ -23,7 +23,7 @@ export default function ExpensesDashboard() {
         return res.json();
     };
 
-     const fetchData = async () => {
+    const fetchData = async () => {
         try {
             const res = await axios.get("/api/expenses");
             setExpenses(res.data);
@@ -101,7 +101,7 @@ export default function ExpensesDashboard() {
             <div className="w-full lg:w-1/2 flex flex-col items-center justify-center mt-10 lg:mt-0">
                 <h2 className="text-lg sm:text-xl font-bold mb-4 text-center">Top Spending Categories</h2>
                 <div className="w-full max-w-[320px] sm:max-w-[400px]">
-                    <ClientPieChart data={expenses}/>
+                    <ClientPieChart data={expenses} />
                 </div>
             </div>
         </div>
