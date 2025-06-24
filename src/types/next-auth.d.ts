@@ -1,3 +1,5 @@
+import { NextAuth as _NextAuth } from "next-auth";
+
 export declare module "next-auth" {
     interface Session {
         user: {
