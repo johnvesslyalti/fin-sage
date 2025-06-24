@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
-import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { startOfDay, startOfMonth, startOfYear } from "date-fns";
+import { getServerSession } from "next-auth";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
