@@ -7,13 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Category {
-  FOOD
-  TRAVEL
-  UTILITIES
-  OTHERS
-}
-
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -21,8 +14,8 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  sessions      Session[]
   expenses      Expense[]
+  sessions      Session[]
 }
 
 model Account {
@@ -63,14 +56,20 @@ model Expense {
   id        String   @id @default(cuid())
   title     String
   amount    Float
-  category  Category 
   date      DateTime
   notes     String?
   recurring Boolean  @default(false)
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  tags      String?
+  category  Category
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
-  tags String?
+enum Category {
+  FOOD
+  TRAVEL
+  UTILITIES
+  OTHERS
 }
