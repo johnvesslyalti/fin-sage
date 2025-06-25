@@ -107,19 +107,49 @@ Features:
 
 Folder Structure:
 
-    /app
-    /dashboard
-    /auth
-    /expenses
-    /components
-    ExpenseForm.tsx
-    ChartView.tsx
-    CategorySelector.tsx
-    /lib
-    auth.ts
-    db.ts
-    /prisma
-    schema.prisma
-    /public
-    /styles
-    /utils
+    finsage
+        |- prisma/
+        |- public/
+        |- src/
+            |- app/
+                |- api/
+                    |- auth/
+                        |- [...nextauth]
+                            |- route.ts
+                    |- expenses/
+                        |- [id]/
+                            |- route.tsx
+                        |- summary
+                            |-  route.ts
+                        |- route.ts
+                |- dashboard/
+                    |- page.tsx
+                |- expenses/
+                    |- page.tsx
+                |- login/
+                    |- page.tsx
+                |- favicon.icon
+                |- globals.css
+                |- layout.tsx
+                |- page.tsx
+                |- providers.tsx
+            |- components/
+                |- magicui/
+                |- ui/
+                |- ClientPieChart.tsx
+                |- ExpensesDashboard.tsx
+                |- ExpensesOverview.tsx
+                |- Footer.tsx
+                |- HeroSection.tsx
+                |- ModeToggle.tsx
+                |- Navbar.tsx
+                |- ThemeProvider.tsx
+            |- lib/
+                |- validations/
+                    |- expense.ts
+                |- auth.ts
+                |- db.ts
+                |- utils.ts
+            |- types/
+                |- index.d.ts
+                |- next-auth.ts
