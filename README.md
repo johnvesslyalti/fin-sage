@@ -153,3 +153,7 @@ Folder Structure:
             |- types/
                 |- index.d.ts
                 |- next-auth.ts
+            
+Contributing:
+
+    Contributions are welcome! Please fork the repo and submit a pull request.
